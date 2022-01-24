@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { AllMiddlewareArgs, SlackEventMiddlewareArgs } from "@slack/bolt";
 import { BOT_USER_ID } from ".";
+import { version } from "../package.json";
 
 const prisma = new PrismaClient()
 
@@ -31,11 +32,12 @@ export async function channels(options: string[], result: SlackEventMiddlewareAr
 
 async function help(options: string[], result: SlackEventMiddlewareArgs<"app_mention"> & AllMiddlewareArgs) {
   let message = "";
-  message += "Webyko bot v1.0.0\n\n"
+  message += `Webyko bot v${version}\n\n`
   message += "*チャンネル関連コマンド一覧*\n"
-  message += ` ${BOT_USER_ID} channels help: このヘルプを表示します\n`
-  message += ` ${BOT_USER_ID} channels deploy [ students | instructors | all ] [prefix] [option: private]: チャンネルの展開を実行します\n`
-  message += ` ${BOT_USER_ID} channels invite [チャンネルメンション] [ students | instructors | all ]: チャンネルへ招待を実行します\n`
+  message += `\`${BOT_USER_ID} help\`\nWebykoのヘルプを表示します\n\n`
+  message += `\`${BOT_USER_ID} channels help\`\nこのヘルプを表示します\n\n`
+  message += `\`${BOT_USER_ID} channels deploy [ students | instructors | all ] [prefix] [option: private]\`\nチャンネルの展開を実行します\n\n`
+  message += `\`${BOT_USER_ID} channels invite [チャンネルメンション] [ students | instructors | all ]\`\nチャンネルへ招待を実行します\n\n`
   await result.say(message);
 }
 

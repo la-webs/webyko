@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { AllMiddlewareArgs, SlackEventMiddlewareArgs } from "@slack/bolt";
 import { BOT_USER_ID } from ".";
+import { version } from "../package.json";
 
 const prisma = new PrismaClient()
 
@@ -34,13 +35,14 @@ export async function students(options: string[], result: SlackEventMiddlewareAr
 
 async function help(options: string[], result: SlackEventMiddlewareArgs<"app_mention"> & AllMiddlewareArgs) {
   let message = "";
-  message += "Webyko bot v1.0.0\n\n"
+  message += `Webyko bot v${version}\n\n`
   message += "*受講生関連コマンド一覧*\n"
-  message += ` ${BOT_USER_ID} students help: このヘルプを表示します\n`
-  message += ` ${BOT_USER_ID} students register [受講生ニックネーム] [受講生英語表記] [option: Slackメンション]: 受講生を新規登録します\n`
-  message += ` ${BOT_USER_ID} students setSlackId [受講生ID] [Slackメンション]: 受講生とSlackアカウントを紐付けします\n`
-  message += ` ${BOT_USER_ID} students delete [受講生ID]: 受講生を削除します\n`
-  message += ` ${BOT_USER_ID} students list: 受講生一覧を表示します\n`
+  message += `\`${BOT_USER_ID} help\`\nWebykoのヘルプを表示します\n\n`
+  message += `\`${BOT_USER_ID} students help\`\nこのヘルプを表示します\n\n`
+  message += `\`${BOT_USER_ID} students register [受講生ニックネーム] [受講生英語表記] [option: Slackメンション]\`\n受講生を新規登録します\n\n`
+  message += `\`${BOT_USER_ID} students setSlackId [受講生ID] [Slackメンション]\`\n受講生とSlackアカウントを紐付けします\n\n`
+  message += `\`${BOT_USER_ID} students delete [受講生ID]\`\n受講生を削除します\n\n`
+  message += `\`${BOT_USER_ID} students list\`\n受講生一覧を表示します\n\n`
   await result.say(message);
 }
 
