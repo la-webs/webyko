@@ -8,19 +8,22 @@ export async function students(options: string[], result: SlackEventMiddlewareAr
 
   switch (options.shift()) {
     case "help":
-      help(options, result);
+      await help(options, result);
       break;
     case "register":
-      register(options, result);
+      await register(options, result);
       break;
     case "list":
-      list(options, result);
+      await list(options, result);
       break;
     case "delete":
-      deleteStudent(options, result);
+      await deleteStudent(options, result);
       break;
     case "setSlackId":
-      setSlackId(options, result);
+      await setSlackId(options, result);
+      break;
+    case undefined:
+      await help(options, result);
       break;
     default:
       await result.say(`コマンドが見つかりませんでした。\n\n`);

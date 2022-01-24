@@ -19,6 +19,9 @@ export async function channels(options: string[], result: SlackEventMiddlewareAr
     case "list":
       list(options, result);
       break;
+    case undefined:
+      await help(options, result);
+      break;
     default:
       await result.say(`コマンドが見つかりませんでした。\n\n`);
       await help(options, result);

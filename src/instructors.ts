@@ -21,6 +21,9 @@ export async function instructors(options: string[], result: SlackEventMiddlewar
     case "setSlackId":
       setSlackId(options, result);
       break;
+    case undefined:
+      await help(options, result);
+      break;
     default:
       await result.say(`コマンドが見つかりませんでした。\n\n`);
       await help(options, result);

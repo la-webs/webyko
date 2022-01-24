@@ -34,6 +34,9 @@ export const BOT_USER_ID = "<@U02V9LK9X5J>";
       case "instructors":
         await instructors(options, result);
         break;
+      case undefined:
+        await help(options, result);
+        break;
       default:
         await result.say(`コマンドが見つかりませんでした。\n\n`);
         await help(options, result);
