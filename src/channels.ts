@@ -134,8 +134,5 @@ async function invite(options: string[], result: SlackEventMiddlewareArgs<"app_m
 
 async function list(options: string[], result: SlackEventMiddlewareArgs<"app_mention"> & AllMiddlewareArgs) {
   const res = await result.client.conversations.list({types: 'public_channel,private_channel'})
-  await result.say(`${res.channels?.map(c => {
-    if(c.is_private) return `:lock: ${c.name}: ${c.id}`
-    return `:hash: ${c.name}: ${c.id}`
-  }).sort().join("\n")}`);
+  await result.say(`${res.channels?.map(c => `:${c.is_private ? "lock" : "hash"}: ${c.name}: ${c.id}`).sort().join("\n")}`);
 }
