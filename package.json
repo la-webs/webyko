@@ -11,7 +11,7 @@
     "tsc": "tsc",
     "tsc:watch": "tsc --watch",
     "dev": "run-p tsc:watch start:watch",
-    "start": "node dist",
+    "start": "node dist/src",
     "start:watch": "nodemon ."
   },
   "dependencies": {
