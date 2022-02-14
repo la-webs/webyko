@@ -111,6 +111,6 @@ async function threads(options: string[], result: SlackEventMiddlewareArgs<"app_
   const students = await prisma.student.findMany()
   
   await Promise.all(students.map(async (student) => {
-    await result.say(`*【${student.nickname}${threadName}】*`);
+    await result.say(`*【${student.nickname}${threadName}】* ${options.length > 0 ? "\n" : ''}${options.join("\n")}`);
   }))
 }
