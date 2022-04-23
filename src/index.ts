@@ -13,7 +13,7 @@ const bot = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET
 });
-export const BOT_USER_ID = "<@B03C8BH8AFR>";
+export const BOT_USER_ID = "<@U03CR9R5VNG>";
 export const MANAGE_CHANNELS = ["C03CL32HPS9", "C03BUT213GU", "C03CETH9MFS"];
 
 (async () => {
