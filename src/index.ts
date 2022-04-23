@@ -21,7 +21,7 @@ export const MANAGE_CHANNELS = ["C03CL32HPS9", "C03BUT213GU", "C03CETH9MFS"];
 
   bot.event('app_mention', async (result) => {
     if(!result.event.text.startsWith(BOT_USER_ID)) return;
-    const options = result.event.text.replace(/<@U02V9LK9X5J>\s*/g, '').split(/\s+/);
+    const options = result.event.text.replace(/<@U03CR9R5VNG>\s*/g, '').split(/\s+/);
     if(MANAGE_CHANNELS.includes(result.event.channel)) {
       switch (options.shift()) {
         case "help":
