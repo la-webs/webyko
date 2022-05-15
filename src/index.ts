@@ -3,6 +3,7 @@ import { AllMiddlewareArgs, App, SlackEventMiddlewareArgs } from '@slack/bolt';
 import { students } from './students';
 import { channels } from './channels';
 import { instructors } from './instructors';
+import { messages } from './messages';
 import { version } from '../package.json';
 import { PrismaClient } from '@prisma/client';
 
@@ -21,7 +22,10 @@ export const MANAGE_CHANNELS = ["C02USUP0MB9", "C02CZPCP0F6", "C02THR9HW3S"];
 
   bot.event('app_mention', async (result) => {
     if(!result.event.text.startsWith(BOT_USER_ID)) return;
-    const options = result.event.text.replace(/<@U02V9LK9X5J>\s*/g, '').split(/\s+/);
+    const lines = result.event.text.split("\n");
+    const command = lines.shift();
+    if(!command) return;
+    const options = command.replace(/<@U02V9LK9X5J>\s*/g, '').split(/\s+/);
     if(MANAGE_CHANNELS.includes(result.event.channel)) {
       switch (options.shift()) {
         case "help":
@@ -44,6 +48,10 @@ export const MANAGE_CHANNELS = ["C02USUP0MB9", "C02CZPCP0F6", "C02THR9HW3S"];
           break;
         case "threads":
           await threads(options, result);
+          break;
+        case "message":
+        case "messages":
+          await messages(options, lines, result);
           break;
         case "":
           await help(options, result);
@@ -77,6 +85,7 @@ async function help(options: string[], result: SlackEventMiddlewareArgs<"app_men
   message += ` ${BOT_USER_ID} students help: 受講生関連のコマンド一覧を表示します\n`
   message += ` ${BOT_USER_ID} instructors help: 講師関連のコマンド一覧を表示します\n`
   message += ` ${BOT_USER_ID} channels help: チャンネル関連のコマンド一覧を表示します\n`
+  message += ` ${BOT_USER_ID} messages help: メッセージ関連のコマンド一覧を表示します\n`
   message += ` ${BOT_USER_ID} thread [スレッド名] [備考...]: 受講生一覧のスレッドを生成します\n`
   message += ` ${BOT_USER_ID} threads [スレッド名] [備考...]: 受講生ごとにスレッドを生成します\n`
   result.say(message);
@@ -111,6 +120,6 @@ async function threads(options: string[], result: SlackEventMiddlewareArgs<"app_
   const students = await prisma.student.findMany()
   
   await Promise.all(students.map(async (student) => {
-    await result.say(`*【${student.nickname}${threadName}】* ${options.length > 0 ? "\n" : ''}${options.join("\n")}`);
+    await result.say(`*【${student.nickname}${threadName}】* ${options.join(" ")}`);
   }))
 }
